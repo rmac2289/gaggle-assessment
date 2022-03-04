@@ -14,12 +14,11 @@ jobs:
         run: |
           cd ./candidate-technical-assessment-sdet-exercise
           mvn clean package
-          docker create network gaggle-net
           docker build --tag gaggle-image .
-          docker run --network gaggle-net --publish 8080:8080 gaggle-image
+          docker run --publish 8080:8080 gaggle-image
 
       - name: Run postman/newman tests # Name of the Step 2
         run: |
           cd ./apiTests
           docker build --tag postman-image .
-          docker run --network gaggle-net postman-image
+          docker run --publish 80:8080 postman-image

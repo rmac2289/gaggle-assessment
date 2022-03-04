@@ -26,9 +26,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://172.18.0.2:8080/schools/",
+          "raw": "http://localhost:8080/schools/",
           "protocol": "http",
-          "host": ["172.18.0.2"],
+          "host": ["localhost"],
           "port": "8080",
           "path": ["schools", ""]
         }
@@ -71,9 +71,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://172.18.0.2:8080/schools/{{id}}",
+          "raw": "http://localhost:8080/schools/{{id}}",
           "protocol": "http",
-          "host": ["172.18.0.2"],
+          "host": ["localhost"],
           "port": "8080",
           "path": ["schools", "{{id}}"],
           "query": [
@@ -139,9 +139,9 @@
           }
         },
         "url": {
-          "raw": "http://172.18.0.2:8080/schools/",
+          "raw": "http://localhost:8080/schools/",
           "protocol": "http",
-          "host": ["172.18.0.2"],
+          "host": ["localhost"],
           "port": "8080",
           "path": ["schools", ""]
         }
@@ -187,9 +187,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://172.18.0.2:8080/schools/",
+          "raw": "http://localhost:8080/schools/",
           "protocol": "http",
-          "host": ["172.18.0.2"],
+          "host": ["localhost"],
           "port": "8080",
           "path": ["schools", ""]
         }
@@ -255,9 +255,9 @@
           }
         },
         "url": {
-          "raw": "http://172.18.0.2:8080/schools/{{id}}",
+          "raw": "http://localhost:8080/schools/{{id}}",
           "protocol": "http",
-          "host": ["172.18.0.2"],
+          "host": ["localhost"],
           "port": "8080",
           "path": ["schools", "{{id}}"]
         }
