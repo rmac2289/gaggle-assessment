@@ -7,7 +7,7 @@ candidate-technical-assessment-sdet-exercise/production-override.properties
 candidate-technical-assessment-sdet-exercise/**/logs/
 candidate-technical-assessment-sdet-exercise/*-override.properties
 candidate-technical-assessment-sdet-exercise/.DS_Store
-apiTests/node_modules
+candidate-technical-assessment-sdet-exercise/node_modules
 .DS_Store
 ### STS ###
 candidate-technical-assessment-sdet-exercise/.apt_generated
