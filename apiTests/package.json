@@ -1,0 +1,14 @@
+{
+  "name": "apitests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "newman run ./gaggleAssessment.postman_collection.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "newman": "^5.3.2"
+  }
+}

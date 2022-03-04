@@ -1,0 +1,38 @@
+candidate-technical-assessment-sdet-exercise/target/
+candidate-technical-assessment-sdet-exercise/!.mvn/wrapper/maven-wrapper.jar
+candidate-technical-assessment-sdet-exercise/!**/src/main/**/target/
+candidate-technical-assessment-sdet-exercise/!**/src/test/**/target/
+candidate-technical-assessment-sdet-exercise/docker-override.properties
+candidate-technical-assessment-sdet-exercise/production-override.properties
+candidate-technical-assessment-sdet-exercise/**/logs/
+candidate-technical-assessment-sdet-exercise/*-override.properties
+candidate-technical-assessment-sdet-exercise/.DS_Store
+apiTests/node_modules
+.DS_Store
+### STS ###
+candidate-technical-assessment-sdet-exercise/.apt_generated
+candidate-technical-assessment-sdet-exercise/.classpath
+candidate-technical-assessment-sdet-exercise/.factorypath
+candidate-technical-assessment-sdet-exercise/.project
+candidate-technical-assessment-sdet-exercise/.settings
+candidate-technical-assessment-sdet-exercise/.springBeans
+candidate-technical-assessment-sdet-exercise/.sts4-cache
+
+### IntelliJ IDEA ###
+candidate-technical-assessment-sdet-exercise/.idea
+candidate-technical-assessment-sdet-exercise/*.iws
+candidate-technical-assessment-sdet-exercise/*.iml
+candidate-technical-assessment-sdet-exercise/*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/

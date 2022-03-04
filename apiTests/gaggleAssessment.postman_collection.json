@@ -1,0 +1,286 @@
+{
+  "info": {
+    "_postman_id": "4561af1f-508d-4430-83ea-e79bcf9740d6",
+    "name": "Gaggle Assessment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Schools",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let schoolData = pm.response.json();",
+              "pm.collectionVariables.set(\"schoolData\", schoolData);",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://172.18.0.2:8080/schools/",
+          "protocol": "http",
+          "host": ["172.18.0.2"],
+          "port": "8080",
+          "path": ["schools", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get School by ID",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "let randomId = Math.floor(Math.random() * 10);",
+              "pm.collectionVariables.set(\"id\", randomId)"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let allSchools = pm.collectionVariables.get(\"schoolData\");",
+              "let id = pm.collectionVariables.get(\"id\")",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"School with proper ID returned\", function () {",
+              "    let response = pm.response.json();",
+              "     pm.expect(response.schoolId).to.eql(id);",
+              "   ",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://172.18.0.2:8080/schools/{{id}}",
+          "protocol": "http",
+          "host": ["172.18.0.2"],
+          "port": "8080",
+          "path": ["schools", "{{id}}"],
+          "query": [
+            {
+              "key": "",
+              "value": "",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add New School",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "let allSchools = pm.collectionVariables.get(\"schoolData\");",
+              "let newSchoolId = allSchools.length",
+              "",
+              "pm.collectionVariables.set(\"newSchoolId\", newSchoolId);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "",
+              "let newSchool = pm.response.json();",
+              "pm.collectionVariables.set(\"addedSchoolData\", newSchool);",
+              "let newSchoolId = pm.collectionVariables.get(\"newSchoolId\");",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"Response body matches request body\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.schoolId).to.eql(newSchoolId);",
+              "    pm.expect(jsonData.schoolName).to.eql(`NewSchool${newSchoolId}`);",
+              "    pm.expect(jsonData.studentCount).to.eql(1111);",
+              "    pm.expect(jsonData.emailAddress).to.eql(\"principal@newschool.edu\")",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"schoolId\":{{newSchoolId}},\"schoolName\":\"NewSchool{{newSchoolId}}\",\"studentCount\":1111,\"emailAddress\":\"principal@newschool.edu\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://172.18.0.2:8080/schools/",
+          "protocol": "http",
+          "host": ["172.18.0.2"],
+          "port": "8080",
+          "path": ["schools", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Test School Added",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let schoolData = pm.response.json();",
+              "let newSchoolId = pm.collectionVariables.get(\"newSchoolId\");",
+              "let addedSchool = pm.collectionVariables.get(\"addedSchoolData\");",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"PUT properly added school to list\", function () {",
+              "    let lastSchoolInList = schoolData[schoolData.length - 1];",
+              "",
+              "    pm.expect(lastSchoolInList.schoolId).to.eql(newSchoolId);",
+              "    pm.expect(lastSchoolInList.schoolName).to.eql(addedSchool.schoolName);",
+              "    pm.expect(lastSchoolInList.studentCount).to.eql(addedSchool.studentCount);",
+              "    pm.expect(lastSchoolInList.emailAddress).to.eql(addedSchool.emailAddress);",
+              "",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [""],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://172.18.0.2:8080/schools/",
+          "protocol": "http",
+          "host": ["172.18.0.2"],
+          "port": "8080",
+          "path": ["schools", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update School",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "let allSchools = pm.collectionVariables.get(\"schoolData\");",
+              "let schoolIndices = allSchools.length - 1",
+              "let randomNum = Math.floor(Math.random() * schoolIndices);",
+              "",
+              "pm.variables.set(\"id\", randomNum)",
+              "pm.variables.set(\"updatedSchoolName\", \"UpdatedSchoolName\")",
+              "pm.variables.set(\"updatedStudentCount\", 2222)",
+              "pm.variables.set(\"updatedEmailAddress\", \"principal@updatedschoolname.edu\")",
+              "pm.variables.set(\"updatedSchool\", {",
+              "    ",
+              "    \"schoolId\": randomNum,",
+              "    \"schoolName\": \"UpdatedSchoolName\",",
+              "    \"studentCount\": 2222,",
+              "    \"emailAddress\": \"principal@updatedschoolname.edu\"",
+              "})"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let newSchool = pm.variables.get(\"updatedSchool\");",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Response contains proper values\", function () {",
+              "    let jsonData = pm.response.json();",
+              "    pm.expect(jsonData.schoolId).to.eql(newSchool.schoolId);",
+              "    pm.expect(jsonData.schoolName).to.eql(newSchool.schoolName);",
+              "    pm.expect(jsonData.studentCount).to.eql(newSchool.studentCount);",
+              "    pm.expect(jsonData.emailAddress).to.eql(newSchool.emailAddress)",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"schoolId\": {{id}},\n\"schoolName\": \"{{updatedSchoolName}}\",\n\"studentCount\": {{updatedStudentCount}},\n\"emailAddress\": \"{{updatedEmailAddress}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://172.18.0.2:8080/schools/{{id}}",
+          "protocol": "http",
+          "host": ["172.18.0.2"],
+          "port": "8080",
+          "path": ["schools", "{{id}}"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "schoolData",
+      "value": ""
+    },
+    {
+      "key": "newSchoolId",
+      "value": ""
+    },
+    {
+      "key": "addedSchoolData",
+      "value": ""
+    },
+    {
+      "key": "id",
+      "value": ""
+    }
+  ]
+}
