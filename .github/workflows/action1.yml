@@ -27,7 +27,7 @@ jobs:
           docker run --publish 8080:8080 gaggle-image &
           sleep 80
           cd ./candidate-technical-assessment-sdet-exercise && ./node_modules/newman/bin/newman.js run gaggleAssessment.postman_collection.json
-          kill -9 `lsof -i:8080 -t`
+
         env:
           API_HOST: 0.0.0.0
           DB_HOST: localhost
