@@ -3,22 +3,52 @@ name: Build & Test #Name of the workflow
 on: [push]
 
 jobs:
-  run-shell-command: # Name of the job 1
-    runs-on: ubuntu-latest # Selecting a GitHub Hosted Runner (Here selected an ubuntu machine)
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
 
-    steps: # Automated Steps of the job
-      - name: Checkout Code
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Git checkout
         uses: actions/checkout@v2
 
-      - name: Run application container # Name of the Step 1 (Optional)
-        run: |
-          cd ./candidate-technical-assessment-sdet-exercise
-          mvn clean package
-          docker build --tag gaggle-image .
-          docker run --publish 8080:8080 gaggle-image
+      - name: Install Node JS ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-      - name: Run postman/newman tests # Name of the Step 2
+      - name: Run the API and Postman's tests
         run: |
-          cd ./apiTests
-          docker build --tag postman-image .
-          docker run --publish 80:8080 postman-image
+          cd ./candidate-technical-assessment-sdet-exercise &&
+          mvn clean package &&
+          docker build --tag gaggle-image . &&
+          docker run --publish 8080:8080 gaggle-image &
+          sleep 10
+          ./node_modules/newman/bin/newman.js run gaggleAssessment.postman_collection.json
+          kill -9 `lsof -i:8080 -t`
+        env:
+          API_HOST: 0.0.0.0
+          DB_HOST: localhost
+          CI: true
+
+  # run-shell-command: # Name of the job 1
+  #   runs-on: ubuntu-latest # Selecting a GitHub Hosted Runner (Here selected an ubuntu machine)
+
+  #   steps: # Automated Steps of the job
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v2
+
+  #     - name: Run application container # Name of the Step 1 (Optional)
+  #       run: |
+  #         cd ./candidate-technical-assessment-sdet-exercise
+  #         mvn clean package
+  #         docker build --tag gaggle-image .
+  #         docker run --publish 8080:8080 gaggle-image
+
+  #     - name: Run postman/newman tests # Name of the Step 2
+  #       run: |
+  #         cd ./apiTests
+  #         docker build --tag postman-image .
+  #         docker run --publish 80:8080 postman-image
