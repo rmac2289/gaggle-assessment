@@ -10,13 +10,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Create docker network
-        run: docker create network gaggle-net
-
       - name: Run application container # Name of the Step 1 (Optional)
         run: |
           cd ./candidate-technical-assessment-sdet-exercise
           mvn clean package
+          docker create network gaggle-net
           docker build --tag gaggle-image .
           docker run --network gaggle-net --publish 8080:8080 gaggle-image
 
