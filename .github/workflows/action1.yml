@@ -7,8 +7,10 @@ jobs:
     runs-on: ubuntu-latest # Selecting a GitHub Hosted Runner (Here selected an ubuntu machine)
 
     steps: # Automated Steps of the job
-      - name: Run application container # Name of the Step 1 (Optional)
+      - name: Checkout Code
         uses: actions/checkout@v2
+
+      - name: Run application container # Name of the Step 1 (Optional)
         run: |
           cd ./candidate-technical-assessment-sdet-exercise
           mvn clean package
@@ -16,7 +18,6 @@ jobs:
           docker run --network gaggle-net --publish 8080:8080 gaggle-image
 
       - name: Run postman/newman tests # Name of the Step 2
-        uses: actions/checkout@v2
         run: |
           cd ./apiTests
           docker build --tag postman-image .
