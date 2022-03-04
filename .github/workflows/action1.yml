@@ -1,0 +1,27 @@
+name: Build & Test #Name of the workflow
+
+on: [push]
+
+jobs:
+  run-shell-command: # Name of the job 1
+    runs-on: ubuntu-latest # Selecting a GitHub Hosted Runner (Here selected an ubuntu machine)
+
+    steps: # Automated Steps of the job
+      - name: Run application container # Name of the Step 1 (Optional)
+        run: |
+        cd candidate-technical-assessment-sdet-exercise
+        mvn clean package
+        docker build --tag gaggle-image .
+        docker run --network gaggle-net --publish 8080:8080 gaggle-image
+
+
+      - name: Run postman/newman tests # Name of the Step 2
+        run: | 
+          cd apiTests
+          docker build --tag postman-image .
+          docker run --network gaggle-net postman-image
+
+      - name: cloning repo files into the vm # Consuming pre published actions from the marketplace
+        uses: actions/checkout@v2.3.4 # Signature of the action you want to use here from the market place
+
+  
