@@ -9,14 +9,14 @@ jobs:
     steps: # Automated Steps of the job
       - name: Run application container # Name of the Step 1 (Optional)
         run: |
-          cd candidate-technical-assessment-sdet-exercise
+          cd ./candidate-technical-assessment-sdet-exercise
           mvn clean package
           docker build --tag gaggle-image .
           docker run --network gaggle-net --publish 8080:8080 gaggle-image
 
       - name: Run postman/newman tests # Name of the Step 2
         run: |
-          cd apiTests
+          cd ./apiTests
           docker build --tag postman-image .
           docker run --network gaggle-net postman-image
 
