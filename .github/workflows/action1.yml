@@ -8,7 +8,7 @@ jobs:
 
     steps: # Automated Steps of the job
       - name: Run application container # Name of the Step 1 (Optional)
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         run: |
           cd ./candidate-technical-assessment-sdet-exercise
           mvn clean package
@@ -16,7 +16,7 @@ jobs:
           docker run --network gaggle-net --publish 8080:8080 gaggle-image
 
       - name: Run postman/newman tests # Name of the Step 2
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         run: |
           cd ./apiTests
           docker build --tag postman-image .
